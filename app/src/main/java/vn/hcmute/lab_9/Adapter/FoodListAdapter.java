@@ -1,6 +1,7 @@
 package vn.hcmute.lab_9.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import vn.hcmute.lab_9.Activity.FoodDetailActivity;
+import vn.hcmute.lab_9.Activity.FoodListActivity;
 import vn.hcmute.lab_9.Model.FoodReview;
 import vn.hcmute.lab_9.R;
 
@@ -40,7 +43,23 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.MyView
         FoodReview food = listFood.get(position);
         holder.txtFoodName.setText(food.getStrMeal());
         Glide.with(context).load(food.getStrMealThumb()).into(holder.imgFood);
+
         // Set onClickListener for each item in the list
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    Intent intent = new Intent(v.getContext(), FoodDetailActivity.class);
+                    Log.d("FOOD_ID", "onClick: " + food.getIdMeal());
+                    intent.putExtra("FOOD_ID", food.getIdMeal());
+                    v.getContext().startActivity(intent);
+                } else {
+                    Log.d("FoodListAdapter", "onClick: " + position);
+                }
+            }
+        });
+
     }
 
     @Override
