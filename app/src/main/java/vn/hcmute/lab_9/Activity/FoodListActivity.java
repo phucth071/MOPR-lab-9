@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,10 @@ import vn.hcmute.lab_9.RecyclerView.Decoration.SpacesItemDecoration;
 import vn.hcmute.lab_9.RetrofitClient;
 import vn.hcmute.lab_9.Service.APIService;
 
-public class FoodListActivity extends AppCompatActivity {
+public class FoodListActivity extends BaseActivity {
 
     RecyclerView rcFoodList;
+    TextView cateName;
     List<FoodReview> foodList;
     APIService apiService;
     FoodListAdapter foodListAdapter;
@@ -31,8 +33,9 @@ public class FoodListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
-
+        initializeBottomBar();
         rcFoodList = findViewById(R.id.rc_food_list);
+        cateName = findViewById(R.id.cate_name);
 
         foodList = new ArrayList<>();
 
@@ -49,6 +52,8 @@ public class FoodListActivity extends AppCompatActivity {
 
     private void GetFoodList() {
         int categoryId = getIntent().getIntExtra("CATEGORY_ID", 0);
+        String cateName = getIntent().getStringExtra("CATEGORY_NAME");
+        this.cateName.setText(cateName);
         Log.d("CateID", "Category ID: " + categoryId);
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
         apiService.getFoodCategory(categoryId).enqueue(new Callback<List<FoodReview>>() {

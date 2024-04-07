@@ -20,7 +20,7 @@ import vn.hcmute.lab_9.RecyclerView.Decoration.SpacesItemDecoration;
 import vn.hcmute.lab_9.RetrofitClient;
 import vn.hcmute.lab_9.Service.APIService;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     RecyclerView rcCate;
     CategoryAdapter categoryAdapter;
@@ -31,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initializeBottomBar();
+
+        int selectedMenuItemId = getIntent().getIntExtra("SELECTED_MENU_ITEM_ID", R.id.home);
+        bottomNavigationView.getMenu().findItem(selectedMenuItemId).setChecked(true);
+
+        Log.d("Activity", "MainActivity: onCreate: started.");
         mappingView();
         categoryList = new ArrayList<>();
 
@@ -39,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         rcCate.setLayoutManager(layoutManager);
         int spaceInPixels = getResources().getDimensionPixelSize(R.dimen.margin_15);
         rcCate.addItemDecoration(new SpacesItemDecoration(spaceInPixels));
-
+        categoryAdapter = new CategoryAdapter(MainActivity.this, categoryList);
+        rcCate.setAdapter(categoryAdapter);
         GetCategory();
     }
 

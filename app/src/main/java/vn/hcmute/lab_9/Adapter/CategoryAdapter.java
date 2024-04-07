@@ -58,6 +58,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 if (position != RecyclerView.NO_POSITION) {
                     Intent intent = new Intent(v.getContext(), FoodListActivity.class);
                     intent.putExtra("CATEGORY_ID", cate.getId());
+                    intent.putExtra("CATEGORY_NAME", cate.getName());
                     v.getContext().startActivity(intent);
                 }
             }
